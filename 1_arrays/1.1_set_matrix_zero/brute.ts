@@ -1,27 +1,42 @@
-function setZeroes(matrix: number[][]): void {
-  const zeros: number[][] = [];
-  for (const row in matrix) {
-    for (const col in matrix[row]) {
-      if (!matrix[row][col]) zeros.push([+row, +col]);
+(function () {
+  /**
+ Do not return anything, modify matrix in-place instead.
+ */
+  function setZeroes(matrix: (number | null)[][]): void {
+    const m = matrix.length;
+    const n = matrix[0].length;
+    for (let i = 0; i < m; i++) {
+      for (let j = 0; j < n; j++) {
+        if (matrix[i][j] === 0) {
+          for (let row = 0; row < m; row++) {
+            if (matrix[row][j] !== 0) {
+              matrix[row][j] = null;
+            }
+          }
+          for (let col = 0; col < n; col++) {
+            if (matrix[i][col] !== 0) {
+              matrix[i][col] = null;
+            }
+          }
+        }
+      }
+    }
+
+    for (let i = 0; i < m; i++) {
+      for (let j = 0; j < n; j++) {
+        if (matrix[i][j] === null) {
+          matrix[i][j] = 0;
+        }
+      }
     }
   }
 
-  if (zeros.length) {
-    for (const [row, col] of zeros) {
-      for (let i = 0; i < matrix.length; i++) {
-        matrix[i][col] = 0;
-      }
-      for (let i = 0; i < matrix[0].length; i++) {
-        matrix[row][i] = 0;
-      }
-    }
-  }
-}
+  const matrix = [
+    [1, 1, 1],
+    [1, 0, 1],
+    [1, 1, 1],
+  ];
 
-const matrix = [
-  [1, 1, 1],
-  [1, 0, 1],
-  [1, 1, 1],
-];
-
-setZeroes(matrix);
+  setZeroes(matrix);
+  console.log(matrix);
+})();
